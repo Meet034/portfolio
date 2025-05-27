@@ -19,11 +19,11 @@ const JWT_SECRET = process.env.JWT_SECRET || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVC
  */
 export const registerUser = async (req, res) => {
   try {
-    const { email, password, name, dateOfBirth, phone } = req.body;
+    const { email, password, name,role, dateOfBirth, phone } = req.body;
     console.log(req.body);
     
     // --- Basic Validation ---
-    if (!email || !password || !name) {
+    if (!email || !password || !name || !role) {
       return res.status(400).json({ message: 'Email, password, and name are required' });
     }
 
@@ -39,6 +39,7 @@ export const registerUser = async (req, res) => {
       email,
       password, // Password will be hashed by the pre-save hook
       name,
+      role,
       ...(dateOfBirth && { dateOfBirth }), // Conditionally add if provided
       ...(phone && { phone }),             // Conditionally add if provided
       // Portfolio, friends, and stars will use schema defaults

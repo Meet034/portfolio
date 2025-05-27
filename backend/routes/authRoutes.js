@@ -53,14 +53,14 @@ router.get('public/:id', getUserPublicProfile);
 
 
 // --- Optional: Add Logout ---
-// router.post('/logout', (req, res) => {
-//   // Logic to handle logout, usually involves clearing the cookie
-//   res.cookie('jwt', '', {
-//       httpOnly: true,
-//       expires: new Date(0),
-//   });
-//   res.status(200).json({ message: 'Logged out successfully' });
-// });
+router.post('/logout', (req, res) => {
+  // Logic to handle logout, usually involves clearing the cookie
+  res.cookie('jwt', '', {
+      httpOnly: true,
+      expires: new Date(0),
+  });
+  res.status(200).json({ message: 'Logged out successfully' });
+});
 
 
 // --- TODO: Add routes for Friends & Stars ---
