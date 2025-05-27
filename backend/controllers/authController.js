@@ -115,28 +115,18 @@ export const loginUser = async (req, res) => {
  */
 export const getCurrentUser = async (req, res) => {
   try {
-    // We assume an authentication middleware has run and attached the user ID to req.user
-    // If it attaches the full user, even better, but usually it's just the ID or payload.
-    // Let's assume req.user = { userId: '...' } as per the original code's implication.
-    const userId = req.user?.userId; // Use optional chaining for safety
+    const token = req.user;
+    if (!token) return res.status(401).json({ message: 'Unauthorized' });
 
-    if (!userId) {
-      return res.status(401).json({ message: 'Unauthorized: No user ID found in request' });
-    }
-
-    // Fetch the user, explicitly excluding the password (though it's default now)
-    // You might want to populate 'friends' here if needed on the profile page: .populate('friends', 'name avatar')
-    const user = await User.findById(userId).select('-password');
-
+    const user = await User.findById(token.userId).select('-password');
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
     res.status(200).json(user);
-
   } catch (error) {
     console.error('Error fetching current user:', error);
-    res.status(500).json({ message: 'Server error', error: error.message });
+    res.status(401).json({ message: 'Unauthorized', error: error.message });
   }
 };
 

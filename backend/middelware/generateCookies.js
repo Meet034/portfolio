@@ -11,7 +11,7 @@ const generateToken = (user, res = null) => {
   const token = jwt.sign(
     { userId: user.userId, email: user.email },
     JWT_SECRET,
-    { expiresIn: '1h' } // Token expiration time
+    { expiresIn: '10h' } // Token expiration time
   );
 
   // Optionally set the token as a cookie
